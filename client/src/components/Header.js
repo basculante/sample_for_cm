@@ -10,9 +10,11 @@ class Header extends Component {
         return;
       case false:
         return (
-          <li>
-            <a href="/auth/google">Login With Google</a>
-          </li>
+          <div>
+            <li>
+              <a href="/auth/google">Login With Google</a>
+            </li>
+          </div>
         );
       default:
         return [
@@ -33,9 +35,6 @@ class Header extends Component {
         return [
           <div>
             <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
               <Link to="/dashboard">Dashboard</Link>
             </li>
           </div>
@@ -49,7 +48,12 @@ class Header extends Component {
           <ul id="nav-mobile" className="right right">
             {this.renderContent()}
           </ul>
-          <ul className="user-buttons left">{this.renderUserContent()}</ul>
+          <ul className="user-buttons left">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>{this.renderUserContent()}</li>
+          </ul>
         </div>
       </nav>
     );
