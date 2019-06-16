@@ -1,0 +1,70 @@
+.landing {
+	height: 95vh;
+	background-image: linear-gradient(
+			to right bottom,
+			hsla(111, 55%, 64%, 0.563),
+			hsla(160, 64%, 43%, 0.501)
+		),
+		url(./images/background.png);
+	background-size: fill;
+	background-position: top;
+	position: relative;
+}
+
+.child-mind-logo {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -80%);
+}
+
+.dashboard-btn {
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 50px;
+	width: 200px;
+	border-radius: 30px;
+}
+
+.dashboard-btn:hover {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-btn:active {
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-btn-white {
+	background-color: #fff;
+	color: #777;
+}
+
+/* Pseudo elements */
+.dashboard-btn::after {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	border-radius: 100px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	transition: all 0.4s;
+}
+
+.dashboard-btn-white::after {
+	background-color: #fff;
+}
+
+.dashboard-btn:hover::after {
+	transform: scaleX(1.4) scaleY(1.6);
+	opacity: 0;
+}
+
+.dashboard-btn-animated {
+	animation: moveInBottom 0.5s ease-out 0.75s;
+	animation-fill-mode: backwards; /*specify style for element when animation is not playing */
+}

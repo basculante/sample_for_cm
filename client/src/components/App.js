@@ -3,6 +3,13 @@ import { Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchUser } from "../actions";
 import history from "../history";
+import "./index.css";
+
+import Header from "./Header";
+import Landing from "./Landing";
+import Dashboard from "./Dashboard";
+import Survey from "./Survey";
+import Graph from "./Graph";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -14,7 +21,11 @@ class App extends React.Component {
 			<div className="app_page">
 				<Router history={history}>
 					<div>
-						hey!
+						<Header />
+						<Route path="/" component={Landing} exact />
+						<Route path="/dashboard" component={Dashboard} exact />
+						<Route path="/survey1" component={Survey} exact />
+						<Route path="/graph" component={Graph} exact />
 					</div>
 				</Router>
 			</div>

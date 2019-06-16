@@ -1,0 +1,50 @@
+.survey-group {
+	padding: 30px;
+}
+
+.bar-graph {
+	opacity: 1;
+}
+
+.card.survey-1 {
+	height: 200px;
+	position: relative;
+	text-align: center;
+	background-size: cover;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(./images/bar-graph.jpg);
+}
+
+.card.survey-2 {
+	height: 200px;
+	position: relative;
+	text-align: center;
+	background-size: cover;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(./images/line-chart.png);
+}
+
+.card.survey-3 {
+	height: 200px;
+	position: relative;
+	text-align: center;
+	background-size: cover;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(./images/radial-chart.png);
+}
+
+.card.survey-4 {
+	height: 200px;
+	position: relative;
+	text-align: center;
+	background-size: cover;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(./images/square-chart.png);
+}
+
+.survey-title {
+	color: white;
+	font-size: 10vh !important;
+	display: flex;
+	justify-content: center;
+}
