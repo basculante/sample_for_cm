@@ -10,6 +10,7 @@ import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import Survey from "./Survey";
 import Graph from "./Graph";
+import SurveyForm from "./SurveyForm";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -26,6 +27,7 @@ class App extends React.Component {
 						<Route path="/dashboard" component={Dashboard} exact />
 						<Route path="/survey1" component={Survey} exact />
 						<Route path="/graph" component={Graph} exact />
+						<Route path="/surveyform" component={SurveyForm} exact />
 					</div>
 				</Router>
 			</div>

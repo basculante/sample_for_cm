@@ -33,10 +33,8 @@ class Header extends Component {
         return;
       default:
         return [
-          <div>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
+          <div key="1">
+            <Link to="/dashboard">Dashboard</Link>
           </div>
         ];
     }
