@@ -4,7 +4,7 @@ const validate = values => {
     errors.surveyName = 'Required'
   }
   if (!values.questions || !values.questions.length) {
-    errors.questions = { _error: 'At least one member must be entered' }
+    errors.questions = { _error: 'At least one question must be entered' }
   } else {
     const questionsArrayErrors = []
     values.questions.forEach((question, questionIndex) => {
@@ -13,22 +13,22 @@ const validate = values => {
         questionErrors.question = 'Required'
         questionsArrayErrors[questionIndex] = questionErrors
       }
-      if (question && question.questions && question.questions.length) {
+      if (question && question.answers && question.answers.length) {
         const answerArrayErrors = []
-        question.questions.forEach((answer, answerIndex) => {
+        question.answers.forEach((answer, answerIndex) => {
           if (!answer || !answer.length) {
             answerArrayErrors[answerIndex] = 'Required'
           }
         })
         if (answerArrayErrors.length) {
-          questionErrors.questions = answerArrayErrors
+          questionErrors.answers = answerArrayErrors
           questionsArrayErrors[questionIndex] = questionErrors
         }
-        if (question.questions.length > 5) {
-          if (!questionErrors.questions) {
-            questionErrors.questions = []
+        if (question.answers.length > 5) {
+          if (!questionErrors.answers) {
+            questionErrors.answers = []
           }
-          questionErrors.questions._error = 'No more than five questions allowed'
+          questionErrors.answers._error = 'No more than five answers allowed'
           questionsArrayErrors[questionIndex] = questionErrors
         }
       }

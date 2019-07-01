@@ -9,8 +9,8 @@ import Header from "./Header";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import Survey from "./Survey";
-import Graph from "./Graph";
 import SurveyForm from "./SurveyForm";
+import Graph from "./Graph";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -24,10 +24,10 @@ class App extends React.Component {
 					<div>
 						<Header />
 						<Route path="/" component={Landing} exact />
-						<Route path="/dashboard" component={Dashboard} exact />
-						<Route path="/survey1" component={Survey} exact />
-						<Route path="/graph" component={Graph} exact />
+						<Route path="/dashboard/:id" component={Dashboard} exact />
+						<Route path="/survey/:id" component={Survey} exact />
 						<Route path="/surveyform" component={SurveyForm} exact />
+						<Route path="/graph/:id" component={Graph} exact />
 					</div>
 				</Router>
 			</div>

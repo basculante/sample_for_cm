@@ -34,7 +34,7 @@ class Header extends Component {
       default:
         return [
           <div key="1">
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to={`/dashboard/${this.props.auth._id}`}>Dashboard</Link>
           </div>
         ];
     }

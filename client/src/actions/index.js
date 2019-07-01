@@ -1,6 +1,13 @@
 import axios from "axios";
 import history from "../history";
-import { FETCH_USER, FETCH_SURVEY, FETCH_SURVEY_DATA } from "./types";
+import {
+	FETCH_USER,
+	FETCH_ALL_SURVEYS,
+	FETCH_MY_SURVEYS,
+	FETCH_SURVEY,
+	FETCH_COMPLETED_SURVEYS,
+	CREATE_SURVEY
+} from "./types";
 
 export const fetchUser = () => async dispatch => {
 	const res = await axios.get("/api/current_user");
@@ -8,35 +15,61 @@ export const fetchUser = () => async dispatch => {
 	dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const fetchSurvey = () => async dispatch => {
-	const res = await axios.get("../surveyList.json");
+export const createNewSurvey = (
+	user,
+	id,
+	surveyName,
+	questions
+) => async dispatch => {
+	const res = await axios.post("/api/addNewSurvey", {
+		user: user,
+		surveyId: id,
+		surveyName: surveyName,
+		questionSet: questions
+	});
+
+	dispatch({ type: CREATE_SURVEY, payload: res.data });
+};
+
+export const fetchAllSurveys = () => async dispatch => {
+	const res = await axios.get("/api/allSurveys");
+
+	dispatch({ type: FETCH_ALL_SURVEYS, payload: res.data });
+};
+
+export const fetchMySurveys = () => async dispatch => {
+	const res = await axios.get("/api/mySurveys");
+
+	dispatch({ type: FETCH_MY_SURVEYS, payload: res.data });
+};
+
+export const fetchSurvey = surveyId => async dispatch => {
+	const res = await axios.post("/api/survey", { surveyId });
 
 	dispatch({ type: FETCH_SURVEY, payload: res.data });
 };
 
-export const addSurvey = (
-	question1,
-	question2,
-	question3,
-	question4,
-	question5,
-	surveyId
-) => async dispatch => {
-	const res = await axios.post("/api/addSurvey", {
-		surveyId,
-		question1,
-		question2,
-		question3,
-		question4,
-		question5
-	});
+export const fetchCompletedSurveys = surveyId => async dispatch => {
+	const res = await axios.post("/api/completedSurveys", { surveyId });
 
-	dispatch({ type: FETCH_USER, payload: res.data });
-	history.push("/graph");
+	dispatch({ type: FETCH_COMPLETED_SURVEYS, payload: res.data });
 };
 
-export const fetchSurveyData = () => async dispatch => {
-	const res = await axios.get("/api/survey");
+export const completeSurvey = (
+	user,
+	surveyId,
+	surveyName,
+	answers
+) => async dispatch => {
+	await axios.post("/api/addCompletedSurvey", {
+		user,
+		surveyId,
+		surveyName,
+		answers
+	});
 
-	dispatch({ type: FETCH_SURVEY_DATA, payload: res.data });
+	const res = await axios.get("/api/current_user");
+
+	dispatch({ type: FETCH_USER, payload: res.data });
+	history.push("/");
 };

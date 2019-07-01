@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Field, FieldArray, reduxForm } from "redux-form";
+import { createNewSurvey } from "../actions";
 import validate from "./validate";
 
 class SurveyForm extends React.Component {
@@ -60,7 +62,7 @@ class SurveyForm extends React.Component {
 				</button>
 				<div>{submitFailed && error && <span>{error}</span>}</div>
 			</li>
-			{fields.map((answer, index) => (
+			{fields.map((question, index) => (
 				<li key={index}>
 					<button
 						className="waves-effect waves-light btn red right"
@@ -72,13 +74,13 @@ class SurveyForm extends React.Component {
 					</button>
 					<h4>Question #{index + 1}</h4>
 					<Field
-						name={`${answer}.question`}
+						name={`${question}.question`}
 						type="text"
 						component={this.renderField}
 						label="Question"
 					/>
 					<FieldArray
-						name={`${answer}.questions`}
+						name={`${question}.answers`}
 						component={this.renderAnswers}
 					/>
 				</li>
@@ -86,12 +88,27 @@ class SurveyForm extends React.Component {
 		</ul>
 	);
 
-	onSubmit = () => {};
+	idGenerator() {
+		return (
+			"_" +
+			Math.random()
+				.toString(36)
+				.substr(2, 9)
+		);
+	}
+
+	onSubmit = formValues => {
+		const { questions, surveyName } = formValues;
+		const id = this.idGenerator();
+		const user = this.props.auth.displayName;
+		this.props.createNewSurvey(user, id, surveyName, questions);
+	};
 
 	render() {
-		const { handleSubmit, pristine, reset, submitting } = this.props;
+		const { pristine, reset, submitting } = this.props;
 		return (
 			<div className="container">
+				<h3>New Survey</h3>
 				<form onSubmit={this.props.handleSubmit(this.onSubmit)}>
 					<Field
 						name="surveyName"
@@ -123,8 +140,19 @@ class SurveyForm extends React.Component {
 	}
 }
 
-export default reduxForm({
+const mapStateToProps = state => {
+	return {
+		auth: state.auth
+	};
+};
+
+const formWrapped = reduxForm({
 	form: "fieldArrays",
 	touchOnBlur: false,
 	validate
 })(SurveyForm);
+
+export default connect(
+	mapStateToProps,
+	{ createNewSurvey }
+)(formWrapped);

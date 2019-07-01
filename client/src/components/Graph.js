@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSurveyData } from "../actions";
+import { fetchCompletedSurveys } from "../actions";
 import {
 	XYPlot,
 	XAxis,
@@ -14,102 +14,11 @@ import "./Graph.css";
 
 class Graph extends React.Component {
 	componentDidMount() {
-		this.props.fetchSurveyData();
+		this.props.fetchCompletedSurveys(this.props.surveyId);
 	}
 
-	renderTable() {
-		return this.props.table.map((table, index) => {
-			return (
-				<table key={index}>
-					<thead>
-						<tr>
-							<th>Question</th>
-							<th>Answer</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>{table.question1}</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>{table.question2}</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>{table.question3}</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>{table.question4}</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>{table.question5}</td>
-						</tr>
-					</tbody>
-				</table>
-			);
-		});
-	}
-
-	render() {
-		const graphData =
-			!this.props.survey || !this.props.survey.length
-				? [{ x: 0, y: 0 }]
-				: this.props.survey[0];
-		const radialData =
-			!this.props.radial || !this.props.radial.length
-				? [{ angle: 0 }]
-				: this.props.radial[0];
-
-		return (
-			<div className="graph-page container">
-				<h3 className="graph-title">Survey</h3>
-				<div className="graphs row">
-					<div className="col s12 m12 l6">
-						<XYPlot
-							xType="ordinal"
-							width={300}
-							height={300}
-							xDistance={100}
-							className="bar-chart"
-						>
-							<VerticalGridLines />
-							<HorizontalGridLines />
-							<XAxis />
-							<YAxis />
-							<VerticalBarSeries data={graphData} />
-						</XYPlot>
-					</div>
-					<div className="col s12 m12 l6">
-						<RadialChart
-							className="radial-chart"
-							data={radialData}
-							width={300}
-							height={300}
-							showLabels={true}
-						/>
-					</div>
-				</div>
-				<div className="row">{this.renderTable()}</div>
-			</div>
-		);
-	}
-}
-
-const mapStateToProps = state => {
-	return {
-		survey: state.surveyData.map(answer => {
-			const array = [
-				answer.question1,
-				answer.question2,
-				answer.question3,
-				answer.question4,
-				answer.question5
-			];
+	barGraphData() {
+		const array = this.props.barGraph
 			var A, B, C, D;
 			A = array.reduce(function(n, val) {
 				return n + (val === "A");
@@ -129,15 +38,10 @@ const mapStateToProps = state => {
 				{ x: "C", y: C },
 				{ x: "D", y: D }
 			];
-		}),
-		radial: state.surveyData.map(answer => {
-			const array = [
-				answer.question1,
-				answer.question2,
-				answer.question3,
-				answer.question4,
-				answer.question5
-			];
+	}
+
+	radialGraphData() {
+		const array = this.props.barGraph
 			var A, B, C, D;
 			A = array.reduce(function(n, val) {
 				return n + (val === "A");
@@ -157,12 +61,92 @@ const mapStateToProps = state => {
 				{ label: "C", angle: C },
 				{ label: "D", angle: D }
 			];
-		}),
-		table: state.surveyData
+	}
+
+	renderTableData() {
+		return this.props.surveys.map((survey, index) => {
+			return survey.answers.map((answers, key) => {
+				return (
+					<div>
+						<table key={key}>
+					<thead>
+						<tr>
+							<th>Question</th>
+							<th>Answer</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>{index + 1}</td>
+							<td>{Object.keys(answers)}</td>
+						</tr>
+					</tbody>
+				</table>
+					</div>
+				)
+			})
+		})
+	}
+
+
+	render() {
+		console.log(this.props.barGraph);
+		return (
+			<div className="graph-page container">
+				<h3 className="graph-title">Survey</h3>
+				<div className="graphs row">
+					<div className="col s12 m12 l6">
+						<XYPlot
+							xType="ordinal"
+							width={300}
+							height={300}
+							xDistance={100}
+							className="bar-chart"
+						>
+							<VerticalGridLines />
+							<HorizontalGridLines />
+							<XAxis />
+							<YAxis />
+							<VerticalBarSeries data={this.barGraphData()} />
+						</XYPlot>
+					</div>
+						<div className="col s12 m12 l6">
+						<RadialChart
+							className="radial-chart"
+							data={this.radialGraphData()}
+							width={300}
+							height={300}
+							showLabels={true}
+						/>
+					</div>
+					<div>
+						{this.renderTableData()}
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+const mapStateToProps = (state, ownProps) => {
+	return {
+		surveyId: ownProps.match.params.id,
+		barGraph: state.completedSurveys
+			.map((survey, index) => {
+				return survey.answers
+					.map((answers, key) => {
+						const ans = Object.values(answers);
+						return ans;
+					})
+					.flat();
+			})
+			.flat(),
+		surveys: state.completedSurveys	
 	};
 };
 
 export default connect(
 	mapStateToProps,
-	{ fetchSurveyData }
+	{ fetchCompletedSurveys }
 )(Graph);

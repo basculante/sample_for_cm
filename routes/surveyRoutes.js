@@ -1,57 +1,96 @@
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 
-const addSurvey = mongoose.model("survey");
+const addNewSurvey = mongoose.model("newSurvey");
+const addCompletedSurvey = mongoose.model("completedSurvey");
 
 module.exports = app => {
-	app.get("/api/survey", requireLogin, async (req, res) => {
-		const survey = await addSurvey.find({ _user: req.user.id });
+	app.post("/api/addNewSurvey", requireLogin, async (req, res) => {
+		const { user, surveyId, surveyName, questionSet } = req.body;
 
-		res.send(survey);
-	});
-
-	app.post("/api/addSurvey", requireLogin, async (req, res) => {
-		const {
+		const surveyNew = new addNewSurvey({
+			user,
 			surveyId,
-			question1,
-			question2,
-			question3,
-			question4,
-			question5
-		} = req.body;
-
-		const addSurveyNew = new addSurvey({
-			surveyId,
-			question1,
-			question2,
-			question3,
-			question4,
-			question5,
+			surveyName,
+			questionSet,
 			_user: req.user.id
 		});
-
 		try {
-			addSurvey.findOne(
+			addNewSurvey.findOne(
 				{
 					surveyId: surveyId,
 					_user: req.user.id
 				},
 				function(err, survey) {
 					if (!survey) {
-						addSurveyNew.save();
-						res.status(200).send("Survey Added!");
+						surveyNew.save();
+						res.status(200).send("Survey created!");
 					} else {
-						addSurvey.replaceOne(
+						res.status(403).send(err);
+					}
+				}
+			);
+		} catch (err) {
+			res.status(403).send(err);
+		}
+	});
+
+	app.get("/api/allSurveys", async (req, res) => {
+		const allSurveys = await addNewSurvey.find({});
+		res.send(allSurveys);
+	});
+
+	app.get("/api/mySurveys", async (req, res) => {
+		const mySurveys = await addNewSurvey.find({ _user: req.user.id });
+		res.send(mySurveys);
+	});
+
+	app.post("/api/completedSurveys", requireLogin, async (req, res) => {
+		const { surveyId } = req.body;
+		const completedSurveys = await addCompletedSurvey.find({
+			surveyId
+		});
+		res.send(completedSurveys);
+	});
+
+	app.post("/api/survey", requireLogin, async (req, res) => {
+		const { surveyId } = req.body;
+		const survey = await addNewSurvey.findOne({
+			surveyId: surveyId
+		});
+		res.send(survey);
+	});
+
+	app.post("/api/addCompletedSurvey", requireLogin, async (req, res) => {
+		const { user, surveyId, surveyName, answers } = req.body;
+
+		const completedNew = new addCompletedSurvey({
+			user,
+			surveyId,
+			surveyName,
+			answers,
+			_user: req.user.id
+		});
+		try {
+			addCompletedSurvey.findOne(
+				{
+					surveyId: surveyId,
+					_user: req.user.id
+				},
+				function(err, survey) {
+					if (!survey) {
+						completedNew.save();
+						res.status(200).send("Survey completed!");
+					} else {
+						addCompletedSurvey.replaceOne(
 							{
 								_user: req.user.id
 							},
 							{
+								user,
 								surveyId,
-								question1,
-								question2,
-								question3,
-								question4,
-								question5,
+								surveyName,
+								answers,
 								_user: req.user.id
 							},
 							{ overwrite: true },
@@ -59,7 +98,7 @@ module.exports = app => {
 								if (err) {
 									res.status(400).send(err);
 								} else {
-									res.status(200).send("Survey Updated!");
+									res.status(200).send("Survey Completed!");
 								}
 							}
 						);
