@@ -11,6 +11,7 @@ import Dashboard from "./Dashboard";
 import Survey from "./Survey";
 import SurveyForm from "./SurveyForm";
 import Graph from "./Graph";
+import UserGraph from "./UserGraph";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -28,6 +29,7 @@ class App extends React.Component {
 						<Route path="/survey/:id" component={Survey} exact />
 						<Route path="/surveyform" component={SurveyForm} exact />
 						<Route path="/graph/:id" component={Graph} exact />
+						<Route path="/usergraph/:id/:user" component={UserGraph} exact />
 					</div>
 				</Router>
 			</div>

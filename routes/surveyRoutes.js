@@ -53,6 +53,15 @@ module.exports = app => {
 		res.send(completedSurveys);
 	});
 
+	app.post("/api/completedUserSurvey", requireLogin, async (req, res) => {
+		const { surveyId, userId } = req.body;
+		const completedUserSurvey = await addCompletedSurvey.find({
+			surveyId,
+			_user: userId
+		});
+		res.send(completedUserSurvey);
+	});
+
 	app.post("/api/survey", requireLogin, async (req, res) => {
 		const { surveyId } = req.body;
 		const survey = await addNewSurvey.findOne({

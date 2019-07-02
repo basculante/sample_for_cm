@@ -24,11 +24,11 @@ const validate = values => {
           questionErrors.answers = answerArrayErrors
           questionsArrayErrors[questionIndex] = questionErrors
         }
-        if (question.answers.length > 5) {
+        if (question.answers.length > 4) {
           if (!questionErrors.answers) {
             questionErrors.answers = []
           }
-          questionErrors.answers._error = 'No more than five answers allowed'
+          questionErrors.answers._error = 'No more than four answers allowed'
           questionsArrayErrors[questionIndex] = questionErrors
         }
       }

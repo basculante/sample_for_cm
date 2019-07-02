@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { fetchCompletedSurveys } from "../actions";
+import { fetchCompletedUserSurvey } from "../actions";
 import {
 	XYPlot,
 	XAxis,
@@ -13,13 +12,15 @@ import {
 } from "react-vis";
 import "./Graph.css";
 
-class Graph extends React.Component {
+class UserGraph extends React.Component {
 	componentDidMount() {
-		this.props.fetchCompletedSurveys(this.props.surveyId);
+		const surveyId = this.props.surveyId;
+		const userId = this.props.userId;
+		this.props.fetchCompletedUserSurvey(surveyId, userId);
 	}
 
 	barGraphData() {
-		const array = this.props.barGraph;
+		const array = this.props.graph;
 		var A, B, C, D;
 		A = array.reduce(function(n, val) {
 			return n + (val === "A");
@@ -42,7 +43,7 @@ class Graph extends React.Component {
 	}
 
 	radialGraphData() {
-		const array = this.props.barGraph;
+		const array = this.props.graph;
 		var A, B, C, D;
 		A = array.reduce(function(n, val) {
 			return n + (val === "A");
@@ -69,22 +70,32 @@ class Graph extends React.Component {
 			<table>
 				<thead>
 					<tr>
-						<th>Participants</th>
+						<th>Question</th>
+						<th>Answer</th>
 					</tr>
 				</thead>
-				{this.props.surveys.map((survey, index) => {
-					return (
-						<tbody key={survey.user}>
-							<tr>
-								<td>
-									<Link to={`/usergraph/${survey.surveyId}/${survey._user}`}>
-										{survey.user}
-									</Link>
-								</td>
-							</tr>
-						</tbody>
-					);
-				})}
+				<tbody>
+				<tr>
+				<td>
+					{this.props.questions.map((question, index) => {
+						return (
+							<p key={index}>
+								{question.substring(1)}
+							</p>
+						);
+					})}
+				</td>
+				<td>
+					{this.props.answers.map((answer, index) => {
+						return (
+							<p key={index}>
+								{answer}
+							</p>
+						);
+					})}
+				</td>
+				</tr>
+				</tbody>
 			</table>
 		);
 	}
@@ -128,7 +139,9 @@ class Graph extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		surveyId: ownProps.match.params.id,
-		barGraph: state.completedSurveys
+		userId: ownProps.match.params.user,
+		survey: state.userCompletedSurvey,
+		graph: state.userCompletedSurvey
 			.map((survey, index) => {
 				return survey.answers
 					.map((answers, key) => {
@@ -138,11 +151,28 @@ const mapStateToProps = (state, ownProps) => {
 					.flat();
 			})
 			.flat(),
-		surveys: state.completedSurveys
+		questions: state.userCompletedSurvey
+			.map((survey, index) => {
+				return survey.answers
+					.map((answers, key) => {
+						return Object.keys(answers);
+					})
+					.flat();
+			})
+			.flat(),
+		answers: state.userCompletedSurvey
+			.map((survey, index) => {
+				return survey.answers
+					.map((answers, key) => {
+						return Object.values(answers);
+					})
+					.flat();
+			})
+			.flat()
 	};
 };
 
 export default connect(
 	mapStateToProps,
-	{ fetchCompletedSurveys }
-)(Graph);
+	{ fetchCompletedUserSurvey }
+)(UserGraph);
