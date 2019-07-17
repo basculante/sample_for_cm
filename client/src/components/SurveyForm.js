@@ -108,7 +108,7 @@ class SurveyForm extends React.Component {
 		const { pristine, reset, submitting } = this.props;
 		return (
 			<div className="container">
-				<h3>New Survey</h3>
+				<h4>New Survey</h4>
 				<form onSubmit={this.props.handleSubmit(this.onSubmit)}>
 					<Field
 						name="surveyName"

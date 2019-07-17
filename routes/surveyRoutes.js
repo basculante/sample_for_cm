@@ -53,6 +53,13 @@ module.exports = app => {
 		res.send(completedSurveys);
 	});
 
+	app.post("/api/myCompletedSurveys", requireLogin, async (req, res) => {
+		const myCompletedSurveys = await addCompletedSurvey.find({
+			_user: req.user.id
+		});
+		res.send(myCompletedSurveys);
+	});
+
 	app.post("/api/completedUserSurvey", requireLogin, async (req, res) => {
 		const { surveyId, userId } = req.body;
 		const completedUserSurvey = await addCompletedSurvey.find({
@@ -107,7 +114,7 @@ module.exports = app => {
 								if (err) {
 									res.status(400).send(err);
 								} else {
-									res.status(200).send("Survey Completed!");
+									res.status(200).send("Survey Updated!");
 								}
 							}
 						);

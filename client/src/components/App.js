@@ -6,6 +6,7 @@ import history from "../history";
 import "./index.css";
 
 import Header from "./Header";
+import Intro from "./Intro";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import Survey from "./Survey";
@@ -19,21 +20,30 @@ class App extends React.Component {
 	}
 
 	render() {
+		const PrivateRoute = ({ component: Component, ...rest }) => (
+			<Route
+				{...rest}
+				render={props =>
+					!this.props.auth ? <Redirect to="/" /> : <Component {...props} />
+				}
+			/>
+		);
 		return (
 			<div className="app_page">
 				<Router history={history}>
 					<div>
 						<Header />
-						<Route path="/" component={Landing} exact />
-						<Route path="/dashboard/:id" component={Dashboard} exact />
+						<Route path="/" component={Intro} exact />
+						<Route path="/surveys" component={Landing} exact />
+						<PrivateRoute path="/dashboard/:id" component={Dashboard} exact />
 						<Route path="/survey/:id" component={Survey} exact />
-						<Route path="/surveyform" component={SurveyForm} exact />
+						<PrivateRoute path="/createsurvey" component={SurveyForm} exact />
 						<Route path="/graph/:id" component={Graph} exact />
 						<Route path="/usergraph/:id/:user" component={UserGraph} exact />
 					</div>
 				</Router>
 			</div>
-		)
+		);
 	}
 }
 

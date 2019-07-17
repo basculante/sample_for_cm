@@ -1,21 +1,70 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAllSurveys, fetchSurvey } from "../actions";
+import { fetchAllSurveys, fetchMyCompletedSurveys } from "../actions";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import "./Landing.css";
 
 class Landing extends React.Component {
 	componentDidMount() {
 		this.props.fetchAllSurveys();
-		this.props.fetchSurvey();
+		this.props.fetchMyCompletedSurveys();
 	}
 
-	renderSurveyList() {
+	renderSurveyListAuth() {
+		return this.props.surveys.map((survey, index) => {
+			if (!this.props.mySurveys.includes(survey.surveyId)) {
+				return (
+					<div key={survey.surveyId}>
+						<ul className="collection">
+							<Link to={`/survey/${survey.surveyId}`}>
+								<li className="collection-item">
+									<div>{survey.surveyName}</div>
+									<div>{survey.user}</div>
+								</li>
+							</Link>
+						</ul>
+					</div>
+				);
+			} else {
+				return (
+					<div key={survey.surveyId}>
+						<ul className="collection">
+							<Link to={`/survey/${survey.surveyId}`}>
+								<li className="collection-item">
+									<div>
+										{survey.surveyName}
+										<i className="material-icons right green-text">
+											check_circle
+										</i>
+									</div>
+									<div>{survey.user}</div>
+								</li>
+							</Link>
+						</ul>
+					</div>
+				);
+			}
+		});
+	}
+
+	renderSurveyListNoAuth() {
+		const MySwal = withReactContent(Swal);
 		return this.props.surveys.map((survey, index) => {
 			return (
 				<div key={survey.surveyId}>
 					<ul className="collection">
-						<Link to={`/survey/${survey.surveyId}`}>
+						<Link
+							to="#"
+							onClick={() =>
+								MySwal.fire({
+									title: <p>Login with Google</p>,
+									text: "Please login to view surveys."
+								})
+							}
+						>
 							<li className="collection-item">
 								<div>{survey.surveyName}</div>
 								<div>{survey.user}</div>
@@ -28,12 +77,21 @@ class Landing extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="landing container">
-				<h3>Surveys</h3>
-				{this.renderSurveyList()}
-			</div>
-		);
+		if (!this.props.auth) {
+			return (
+				<div className="landing container">
+					<h3>Surveys</h3>
+					{this.renderSurveyListNoAuth()}
+				</div>
+			);
+		} else {
+			return (
+				<div className="landing container">
+					<h3>Surveys</h3>
+					{this.renderSurveyListAuth()}
+				</div>
+			);
+		}
 	}
 }
 
@@ -48,11 +106,14 @@ function shuffle(a) {
 const mapStateToProps = state => {
 	return {
 		auth: state.auth,
-		surveys: shuffle(state.surveys)
+		surveys: shuffle(state.surveys),
+		mySurveys: state.myCompletedSurveys.map(id => {
+			return id.surveyId;
+		})
 	};
 };
 
 export default connect(
 	mapStateToProps,
-	{ fetchAllSurveys, fetchSurvey }
+	{ fetchAllSurveys, fetchMyCompletedSurveys }
 )(Landing);

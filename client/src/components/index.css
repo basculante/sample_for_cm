@@ -1,5 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
 
 .app_page {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Merriweather', serif;
+}
+
+button {
+	font-family: 'Merriweather', serif;
 }

@@ -7,6 +7,7 @@ import newSurveyReducer from "./newSurveyReducer";
 import surveyReducer from "./surveyReducer";
 import completedSurveysReducer from "./completedSurveysReducer";
 import completedUserSurveyReducer from "./completedUserSurveyReducer";
+import myCompletedSurveysReducer from "./myCompletedSurveysReducer";
 
 export default combineReducers({
 	auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
 	survey: surveyReducer,
 	newSurvey: newSurveyReducer,
 	completedSurveys: completedSurveysReducer,
-	userCompletedSurvey: completedUserSurveyReducer
+	userCompletedSurvey: completedUserSurveyReducer,
+	myCompletedSurveys: myCompletedSurveysReducer
 });

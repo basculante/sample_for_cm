@@ -1,3 +1,15 @@
+.nav-item {
+	color: black;
+}
+
+.surveysoup-logo {
+	max-width: 70%;
+}
+
 .user-buttons {
 	margin-left: 15px;
+}
+
+.brand-logo:hover {
+    background-color: rgba(0, 0, 0, 0) !important;
 }

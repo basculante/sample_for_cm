@@ -82,6 +82,7 @@ class Survey extends React.Component {
     } else {
       return (
         <div className="survey-form container">
+          <h4 style={{marginBottom: "43px"}}>{this.props.surveyName}</h4>
           <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
             <Field component={this.renderQuestion} name="answers" />
             <button className="waves-effect waves-light btn" type="submit">

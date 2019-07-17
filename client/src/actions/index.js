@@ -7,6 +7,7 @@ import {
 	FETCH_SURVEY,
 	FETCH_COMPLETED_SURVEYS,
 	FETCH_COMPLETED_USER_SURVEY,
+	FETCH_MY_COMPLETED_SURVEYS,
 	CREATE_SURVEY
 } from "./types";
 
@@ -30,6 +31,7 @@ export const createNewSurvey = (
 	});
 
 	dispatch({ type: CREATE_SURVEY, payload: res.data });
+	history.push("/surveys");
 };
 
 export const fetchAllSurveys = () => async dispatch => {
@@ -54,6 +56,12 @@ export const fetchCompletedSurveys = surveyId => async dispatch => {
 	const res = await axios.post("/api/completedSurveys", { surveyId });
 
 	dispatch({ type: FETCH_COMPLETED_SURVEYS, payload: res.data });
+};
+
+export const fetchMyCompletedSurveys = surveyId => async dispatch => {
+	const res = await axios.post("/api/myCompletedSurveys");
+
+	dispatch({ type: FETCH_MY_COMPLETED_SURVEYS, payload: res.data });
 };
 
 export const fetchCompletedUserSurvey = (
@@ -84,5 +92,5 @@ export const completeSurvey = (
 	const res = await axios.get("/api/current_user");
 
 	dispatch({ type: FETCH_USER, payload: res.data });
-	history.push("/");
+	history.push("/surveys");
 };
