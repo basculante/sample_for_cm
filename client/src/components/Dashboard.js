@@ -14,8 +14,13 @@ class Dashboard extends React.Component {
 		return this.props.mySurveys.map((survey, index) => {
 			return (
 				<div className="col s12 m12 l6" key={survey.surveyId}>
-					<Link to={`/graph/${survey.surveyId}`}>
-						<div className="card survey-1">
+					<Link to={{
+						pathname: `/graph/${survey.surveyId}`,
+						state: {
+							title: survey.surveyName
+						}
+					}}>
+						<div className="card survey">
 							<span className="survey-title card-title">
 								{survey.surveyName}
 							</span>
@@ -28,8 +33,13 @@ class Dashboard extends React.Component {
 
 	render() {
 		return (
-			<div className="container">
-				<h3>My Surveys</h3>
+			<div className="dashboard container">
+				<h3 className="dashboard-title center">My Surveys</h3>
+				<div className="dashboard-createsurvey-btn center">
+					<Link to="/createsurvey">
+						<button className="waves-effect waves-light btn">Create New Survey</button>
+					</Link>
+				</div>
 				<div className="survey-group row">{this.renderSurveyCard()}</div>
 			</div>
 		);

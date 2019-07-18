@@ -38,8 +38,8 @@ class App extends React.Component {
 						<PrivateRoute path="/dashboard/:id" component={Dashboard} exact />
 						<Route path="/survey/:id" component={Survey} exact />
 						<PrivateRoute path="/createsurvey" component={SurveyForm} exact />
-						<Route path="/graph/:id" component={Graph} exact />
-						<Route path="/usergraph/:id/:user" component={UserGraph} exact />
+						<PrivateRoute path="/graph/:id" component={Graph} exact />
+						<PrivateRoute path="/usergraph/:id/:user" component={UserGraph} exact />
 					</div>
 				</Router>
 			</div>

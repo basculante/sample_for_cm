@@ -6,7 +6,7 @@
 	opacity: 1;
 }
 
-.card.survey-1 {
+.card.survey {
 	height: 200px;
 	line-height: 200px;
 	overflow: hidden;
@@ -17,8 +17,18 @@
 	background-size: cover;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 		url(./images/square-chart.png);
+	transition: transform 0.2s;
+}
+
+.card.survey:hover {
+	transform: scale(1.02);
 }
 
 .survey-title {
 	color: white;
+}
+
+.dashboard-createsurvey-btn {
+	margin-top: 35px;
+	margin-bottom: 10px;
 }

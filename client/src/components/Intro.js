@@ -10,14 +10,14 @@ const Intro = () => {
 					<h1 className="intro-main">Survey Soup</h1>
 				</div>
 				<div className="intro-subtitle">
-					<h5>Create surveys, share surveys, visualize data.</h5>
+					<h6>Create surveys, share surveys, visualize data.</h6>
 				</div>
 				<div>
-					<button className="intro-btn waves-effect waves-light btn-large">
-						<Link to="/surveys" className="intro-btn-link">
+					<Link to="/surveys" className="intro-btn-link">
+						<button className="intro-btn waves-effect waves-light btn-large">
 							View Surveys
-						</Link>
-					</button>
+						</button>
+					</Link>
 				</div>
 			</div>
 		</div>

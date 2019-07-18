@@ -21,8 +21,8 @@ class Landing extends React.Component {
 						<ul className="collection">
 							<Link to={`/survey/${survey.surveyId}`}>
 								<li className="collection-item">
-									<div>{survey.surveyName}</div>
-									<div>{survey.user}</div>
+									<div className="collection-item-name">{survey.surveyName}</div>
+									<div className="collection-item-user">{survey.user}</div>
 								</li>
 							</Link>
 						</ul>
@@ -34,13 +34,13 @@ class Landing extends React.Component {
 						<ul className="collection">
 							<Link to={`/survey/${survey.surveyId}`}>
 								<li className="collection-item">
-									<div>
+									<div className="collection-item-name">
 										{survey.surveyName}
 										<i className="material-icons right green-text">
 											check_circle
 										</i>
 									</div>
-									<div>{survey.user}</div>
+									<div className="collection-item-user">{survey.user}</div>
 								</li>
 							</Link>
 						</ul>
@@ -80,14 +80,14 @@ class Landing extends React.Component {
 		if (!this.props.auth) {
 			return (
 				<div className="landing container">
-					<h3>Surveys</h3>
+					<h3 className="landing-title center">Surveys</h3>
 					{this.renderSurveyListNoAuth()}
 				</div>
 			);
 		} else {
 			return (
 				<div className="landing container">
-					<h3>Surveys</h3>
+					<h3 className="landing-title center">Surveys</h3>
 					{this.renderSurveyListAuth()}
 				</div>
 			);

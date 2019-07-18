@@ -58,12 +58,6 @@ class Header extends Component {
             >
               Dashboard
             </Link>
-            <Link
-              to="/createsurvey"
-              className="nav-item right right hide-on-med-and-down"
-            >
-              New Survey
-            </Link>
           </div>
         ];
     }
@@ -140,6 +134,14 @@ class Header extends Component {
                 className="nav-item right right hide-on-med-and-down"
               >
                 Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/surveys"
+                className="nav-item right right hide-on-med-and-down"
+              >
+                Surveys
               </Link>
             </li>
             <li>{this.renderUserContent()}</li>

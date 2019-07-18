@@ -77,7 +77,12 @@ class Graph extends React.Component {
 						<tbody key={survey.user}>
 							<tr>
 								<td>
-									<Link to={`/usergraph/${survey.surveyId}/${survey._user}`}>
+									<Link to={{
+										pathname: `/usergraph/${survey.surveyId}/${survey._user}`,
+										state:{
+											title: this.props.location.state.title
+										}
+									}}>
 										{survey.user}
 									</Link>
 								</td>
@@ -90,9 +95,10 @@ class Graph extends React.Component {
 	}
 
 	render() {
+		const { title } = this.props.location.state
 		return (
 			<div className="graph-page container">
-				<h3 className="graph-title">Survey</h3>
+				<h3 className="graph-title">{title}</h3>
 				<div className="graphs row">
 					<div className="col s12 m12 l6">
 						<XYPlot

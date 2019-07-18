@@ -101,9 +101,10 @@ class UserGraph extends React.Component {
 	}
 
 	render() {
+		const { title } = this.props.location.state
 		return (
 			<div className="graph-page container">
-				<h3 className="graph-title">Survey</h3>
+				<h3 className="graph-title">{title}</h3>
 				<div className="graphs row">
 					<div className="col s12 m12 l6">
 						<XYPlot

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:700&display=swap');
 
 .intro {
   height: 95vh;
@@ -19,7 +19,7 @@
 .intro-textbox {
   color: white;
   position: absolute;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -28,14 +28,14 @@
 
 .intro-main {
   font-size: 10vh;
-  letter-spacing: 5px;
 }
 
 .intro-subtitle {
 }
 
 .intro-btn {
-  margin: 20px;
+  margin: 40px;
+  border-radius: 20px;
 }
 
 .intro-btn-link {

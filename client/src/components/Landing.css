@@ -1,0 +1,16 @@
+.collection{
+	transition: transform .2s;
+}
+
+.collection:hover {
+	transform: scale(1.02);
+}
+
+.collection-item-name {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+.collection-item-user {
+	font-size: .9em;
+}

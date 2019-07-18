@@ -48,7 +48,7 @@ class Survey extends React.Component {
     return this.props.survey.map((question, index) => {
       return (
         <div className="row" key={index}>
-          <div className="question col s12">{question.question}</div>
+          <div className="question col s12" style={{marginBottom: "10px"}}>{question.question}</div>
           <div className="answer col s12">
             {question.answers.map((answer, key) => {
               return (
@@ -82,7 +82,7 @@ class Survey extends React.Component {
     } else {
       return (
         <div className="survey-form container">
-          <h4 style={{marginBottom: "43px"}}>{this.props.surveyName}</h4>
+          <h4 className="survey-form-title center" style={{marginTop: "30px", marginBottom: "20px"}}>{this.props.surveyName}</h4>
           <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
             <Field component={this.renderQuestion} name="answers" />
             <button className="waves-effect waves-light btn" type="submit">
