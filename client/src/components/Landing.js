@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAllSurveys, fetchMyCompletedSurveys } from "../actions";
+import { fetchAllSurveys, fetchSurvey, fetchMyCompletedSurveys } from "../actions";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -10,6 +10,7 @@ import "./Landing.css";
 class Landing extends React.Component {
 	componentDidMount() {
 		this.props.fetchAllSurveys();
+		this.props.fetchSurvey();
 		this.props.fetchMyCompletedSurveys();
 	}
 
@@ -115,5 +116,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ fetchAllSurveys, fetchMyCompletedSurveys }
+	{ fetchAllSurveys, fetchSurvey, fetchMyCompletedSurveys }
 )(Landing);
